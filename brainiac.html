@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Brainiac Boost</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="arcadeFrame">
+  <div class="screen">
+
+    <div class="bbWrap2">
+
+      <div class="pmHud">
+  <div class="pmLeft">
+    <img src="assets/bblogo.png" class="pmLogo" alt="Brainiac Boost">
+  </div>
+
+  <div class="pmCenter">
+    <div class="pmLabels">
+      <div class="pmLabel">1UP</div>
+      <div class="pmLabel">HIGH SCORE</div>
+    </div>
+    <div class="pmScores">
+      <div class="pmScoreNum" id="score">0</div>
+      <div class="pmScoreNum" id="high">0</div>
+    </div>
+  </div>
+
+  <div class="pmRight">
+    <button class="pmHomeBtn" id="homeBtn" aria-label="Home">🏠</button>
+  </div>
+</div>
+
+      <div class="pmStage">
+        <canvas id="game" width="728" height="598"></canvas>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script>
+document.getElementById("homeBtn").addEventListener("click", () => {
+  window.location.href = "select.html";
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") window.location.href = "select.html";
+});
+</script>
+
+<script src="brainiac.js"></script>
+<script>
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") window.location.href = "select.html";
+});
+</script>
+
+</body>
+</html>

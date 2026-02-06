@@ -185,3 +185,193 @@ body{
   font-size: 14px;
   color: var(--muted);
 }
+.bbWrap{
+  height:100%;
+  padding: 26px 28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  z-index:2;
+}
+
+.bbHud{
+  text-align:center;
+}
+
+.bbTitle{
+  font-size: 34px;
+  letter-spacing: 2px;
+  color: #ff9f1c;
+}
+
+.bbSub{
+  margin-top: 8px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,.7);
+}
+
+.bbStats{
+  margin-top: 10px;
+  color: #f7c948;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.bbStage{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#game{
+  display:block;
+  margin: 0 auto;
+
+  width: auto;                
+  max-width: 72%;             
+
+  height: auto;               
+  max-height: 62vh;           
+
+  border-radius: 16px;
+  background: rgba(0,0,0,.70);
+  image-rendering: pixelated;
+}
+
+
+
+.bbFooter{
+  text-align:center;
+  font-size: 14px;
+  color: rgba(255,255,255,.7);
+}
+
+.bbHudMinimal{
+  text-align:center;
+  padding-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.bbScoreOnly{
+  color: #f7c948;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.bbWrap{
+  height:100%;
+  padding: 18px 20px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap: 10px;
+  position:relative;
+  z-index:2;
+}
+
+.bbWrap2{
+  height:100%;
+  padding: 14px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  position:relative;
+  z-index:2;
+}
+
+.pmHud{
+  display:grid;
+  grid-template-columns: 320px 1fr 160px;
+  align-items:center;
+}
+
+
+.pmLeft{
+  font-size: 22px;
+  letter-spacing: 2px;
+  padding-top: 4px;
+}
+
+.pmCenter{
+  text-align:center;
+}
+
+.pmLabels{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.92);
+}
+
+.pmScores{
+  margin-top: 6px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.92);
+}
+
+.pmRight{
+  display:flex;
+  justify-content:flex-end;
+  padding-top: 6px;
+}
+
+.pmStage{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  flex: 1;
+  padding-top: 8px;
+  overflow:hidden;
+}
+
+
+#game{
+  width: 96%;
+  height: auto;
+  border-radius: 16px;
+  background: rgba(0,0,0,.55);
+  image-rendering: pixelated;
+}
+
+.pmLogo{
+  height: 92px;
+  width: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 16px rgba(247,201,72,.32));
+}
+
+
+#game{
+  width: 86%;
+  height: auto;
+  border-radius: 16px;
+  background: rgba(0,0,0,.70);
+  image-rendering: pixelated;
+}
+.pmHomeBtn{
+  width: 56px;
+  height: 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 14px;
+  cursor:pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.pmHomeBtn:hover{
+  border-color: rgba(247,201,72,.65);
+  box-shadow: 0 0 14px rgba(247,201,72,.18);
+}

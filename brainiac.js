@@ -3,10 +3,14 @@ const ctx = canvas.getContext("2d");
 
 const scoreEl = document.getElementById("score");
 const highEl = document.getElementById("high");
+const livesTrack = document.getElementById("livesTrack");
 
 const TILE = 26;
 const COLS = 28;
-const ROWS = 21;
+const ROWS = 14;
+
+canvas.width = COLS * TILE;
+canvas.height = ROWS * TILE;
 
 // ---------- Score ----------
 let score = 0;
@@ -14,11 +18,30 @@ let high = Number(localStorage.getItem("bb_high") || 0);
 scoreEl.textContent = "0";
 highEl.textContent = String(high);
 
+function updateHigh() {
+  if (score > high) {
+    high = score;
+    localStorage.setItem("bb_high", String(high));
+    highEl.textContent = String(high);
+  }
+}
+
+// ---------- Lives ----------
+let lives = 3;
+const MAX_LIVES = 5;
+
 // ---------- Assets ----------
 const pacboyImg = new Image();
 pacboyImg.src = "assets/pacboy.png";
-pacboyImg.onload = () => console.log("pacboy loaded", pacboyImg.naturalWidth, pacboyImg.naturalHeight);
-pacboyImg.onerror = () => console.log("pacboy failed to load. check assets/pacboy.png");
+
+const bibleImg = new Image();
+bibleImg.src = "assets/powerup1.png";
+
+const appleImg = new Image();
+appleImg.src = "assets/powerup2.png";
+
+const heartImg = new Image();
+heartImg.src = "assets/powerup3.png";
 
 // ---------- Input ----------
 const DIRS = {
@@ -28,10 +51,11 @@ const DIRS = {
   ArrowRight: { x: 1, y: 0 },
 };
 
-// ---------- Maze (simple) ----------
+// ---------- Maze ----------
 const MAZE = [
   "############################",
   "# ...........##............#",
+  "#.####.#####.##.#####.####.#",
   "#.####.#####.##.#####.####.#",
   "#..........................#",
   "#.####.##.########.##.####.#",
@@ -40,33 +64,27 @@ const MAZE = [
   "#............##............#",
   "#.####.#####.##.#####.####.#",
   "#..........................#",
-  "#.####.##.########.##.####.#",
-  "#......##....##....##......#",
-  "#.####.#####.##.#####.####.#",
-  "#..........................#",
-  "#.####.##.########.##.####.#",
-  "#......##....##....##......#",
-  "#.####.#####.##.#####.####.#",
-  "#..........................#",
   "#.####.......##.......####.#",
   "#............##............#",
   "############################",
 ];
 
+let grid = [];
 
-const grid = Array.from({ length: ROWS }, (_, y) =>
-  Array.from({ length: COLS }, (_, x) => (MAZE[y] ? MAZE[y][x] : "#"))
-);
+function buildGrid() {
+  grid = Array.from({ length: ROWS }, (_, y) =>
+    Array.from({ length: COLS }, (_, x) => (MAZE[y] ? MAZE[y][x] : "#"))
+  );
+}
 
-// ---------- Center "distraction box" with visible gate ----------
+// ---------- Jail + gate ----------
 function addJailToGrid() {
-  const w = 10; // tiles wide
-  const h = 6;  // tiles tall
+  const w = 10;
+  const h = 5;
 
   const startX = Math.floor(COLS / 2) - Math.floor(w / 2);
   const startY = Math.floor(ROWS / 2) - Math.floor(h / 2);
 
-  // build box
   for (let y = startY; y < startY + h; y++) {
     for (let x = startX; x < startX + w; x++) {
       const border =
@@ -79,14 +97,14 @@ function addJailToGrid() {
     }
   }
 
-  // gate (3 tiles) on the TOP border, centered
+  // gate on the TOP border (3 tiles)
   const gateY = startY;
-  const gateX1 = startX + Math.floor(w / 2) - 1;
-  grid[gateY][gateX1] = "G";
-  grid[gateY][gateX1 + 1] = "G";
-  grid[gateY][gateX1 + 2] = "G";
+  const gateX = startX + Math.floor(w / 2) - 1;
+  grid[gateY][gateX] = "G";
+  grid[gateY][gateX + 1] = "G";
+  grid[gateY][gateX + 2] = "G";
 
-  // clear pellets around the box so it looks clean
+  // clear pellets around jail so it looks clean
   for (let y = startY - 1; y <= startY + h; y++) {
     for (let x = startX - 1; x <= startX + w; x++) {
       if (y < 0 || x < 0 || y >= ROWS || x >= COLS) continue;
@@ -95,7 +113,49 @@ function addJailToGrid() {
   }
 }
 
-addJailToGrid();
+// ---------- Power ups ----------
+let slowUntilMs = 0;
+
+function placePowerups() {
+  // B bible, A apple, H heart
+  const spots = [
+    { x: 1, y: 12, t: "B" },
+    { x: 26, y: 12, t: "A" },
+    { x: 6, y: 3, t: "H" },
+  ];
+
+  for (const s of spots) {
+    if (!grid[s.y] || !grid[s.y][s.x]) continue;
+    if (grid[s.y][s.x] === "#") continue;
+    if (grid[s.y][s.x] === "G") continue;
+    grid[s.y][s.x] = s.t;
+  }
+}
+
+function collectPowerup(nowMs) {
+  const cell = grid[player.y][player.x];
+
+  if (cell === "B") {
+    grid[player.y][player.x] = " ";
+    lives = Math.min(MAX_LIVES, lives + 1);
+    renderLives();
+  }
+
+  if (cell === "A") {
+    grid[player.y][player.x] = " ";
+    score += 200;
+    scoreEl.textContent = String(score);
+    updateHigh();
+  }
+
+  if (cell === "H") {
+    grid[player.y][player.x] = " ";
+    slowUntilMs = nowMs + 6000;
+    score += 50;
+    scoreEl.textContent = String(score);
+    updateHigh();
+  }
+}
 
 // ---------- Player ----------
 const player = {
@@ -103,36 +163,48 @@ const player = {
   y: 1,
   dir: { x: 0, y: 0 },
   next: { x: 0, y: 0 },
+  spawnX: 1,
+  spawnY: 1,
 };
 
 // ---------- Helpers ----------
 function isWall(x, y) {
   if (x < 0 || y < 0 || x >= COLS || y >= ROWS) return true;
-  return grid[y][x] === "#" || grid[y][x] === "G";
+  const c = grid[y][x];
+  return c === "#" || c === "G";
 }
 
 function eatPellet() {
-  if (grid[player.y][player.x] === ".") {
+  const c = grid[player.y][player.x];
+  if (c === ".") {
     grid[player.y][player.x] = " ";
     score += 10;
     scoreEl.textContent = String(score);
-
-    if (score > high) {
-      high = score;
-      localStorage.setItem("bb_high", String(high));
-      highEl.textContent = String(high);
-    }
+    updateHigh();
   }
 }
 
-// ---------- Input events ----------
+function renderLives() {
+  if (!livesTrack) return;
+  livesTrack.innerHTML = "";
+
+  for (let i = 0; i < lives; i++) {
+    const img = document.createElement("img");
+    img.src = "assets/pacboy.png";
+    img.className = "bbLifeIcon";
+    img.alt = "life";
+    livesTrack.appendChild(img);
+  }
+}
+
+// ---------- Input ----------
 document.addEventListener("keydown", (e) => {
   const d = DIRS[e.key];
   if (!d) return;
   player.next = d;
 });
 
-// ---------- Movement (grid snap) ----------
+// ---------- Movement ----------
 let lastMove = 0;
 const MOVE_MS = 105;
 
@@ -140,18 +212,19 @@ function update(now) {
   if (now - lastMove < MOVE_MS) return;
   lastMove = now;
 
-  // turn first if possible
   const tx = player.x + player.next.x;
   const ty = player.y + player.next.y;
   if (!isWall(tx, ty)) player.dir = player.next;
 
-  // then move 1 tile
   const nx = player.x + player.dir.x;
   const ny = player.y + player.dir.y;
+
   if (!isWall(nx, ny)) {
     player.x = nx;
     player.y = ny;
+
     eatPellet();
+    collectPowerup(now);
   }
 }
 
@@ -166,7 +239,6 @@ function drawWallsAndGate() {
   const wallStroke = "rgba(70,170,255,0.95)";
   const wallGlow = "rgba(70,170,255,0.10)";
 
-  // walls
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       if (grid[y][x] !== "#") continue;
@@ -183,7 +255,7 @@ function drawWallsAndGate() {
     }
   }
 
-  // gate tiles (thin bars)
+  // gate bars
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       if (grid[y][x] !== "G") continue;
@@ -202,7 +274,6 @@ function drawWallsAndGate() {
 }
 
 function drawPellets() {
-  // GOLD pellets
   ctx.fillStyle = "rgba(247,201,72,0.95)";
 
   for (let y = 0; y < ROWS; y++) {
@@ -219,14 +290,51 @@ function drawPellets() {
   }
 }
 
+function drawFallbackBadge(cx, cy, label) {
+  ctx.fillStyle = "rgba(247,201,72,0.95)";
+  ctx.beginPath();
+  ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(0,0,0,0.9)";
+  ctx.font = "10px ui-monospace, monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, cx, cy + 0.5);
+}
+
+function drawPowerups() {
+  ctx.imageSmoothingEnabled = false;
+  const size = Math.round(TILE * 2.2);
+
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      const cell = grid[y][x];
+      if (cell !== "B" && cell !== "A" && cell !== "H") continue;
+
+      const cx = x * TILE + TILE / 2;
+      const cy = y * TILE + TILE / 2;
+      const px = Math.round(cx - size / 2);
+      const py = Math.round(cy - size / 2);
+
+      const img = cell === "B" ? bibleImg : cell === "A" ? appleImg : heartImg;
+
+      if (img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, px, py, size, size);
+      } else {
+        drawFallbackBadge(cx, cy, cell);
+      }
+    }
+  }
+}
+
 function drawPlayer() {
   const cx = player.x * TILE + TILE / 2;
   const cy = player.y * TILE + TILE / 2;
 
   ctx.imageSmoothingEnabled = false;
 
-  // BIG pacboy
-  const size = Math.round(TILE * 2.6);
+  const size = Math.round(TILE * 2.7);
   const px = Math.round(cx - size / 2);
   const py = Math.round(cy - size / 2);
 
@@ -244,14 +352,19 @@ function draw() {
   drawBackdrop();
   drawWallsAndGate();
   drawPellets();
+  drawPowerups();
   drawPlayer();
 }
 
-// ---------- Loop ----------
+// ---------- Boot ----------
+buildGrid();
+addJailToGrid();
+placePowerups();
+renderLives();
+
 function loop(now) {
   update(now);
   draw();
   requestAnimationFrame(loop);
 }
-
 requestAnimationFrame(loop);

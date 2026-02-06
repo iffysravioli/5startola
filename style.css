@@ -375,3 +375,49 @@ body{
   border-color: rgba(247,201,72,.65);
   box-shadow: 0 0 14px rgba(247,201,72,.18);
 }
+.bbLivesBar{
+  margin-top: 8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.bbLivesTrack{
+  display:flex;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(255,255,255,.18);
+}
+.bbLifeIcon{
+  width: 22px;
+  height: 22px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 10px rgba(247,201,72,.12));
+  opacity: .95;
+}
+.pmStage{
+  position: relative;
+}
+
+.bbLivesBar{
+  position:absolute;
+  bottom: 10px;
+  left: 16px;
+  pointer-events:none;
+}
+
+#livesTrack{
+  display:flex;
+  gap: 6px;
+}
+
+.bbLifeIcon{
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
+  opacity:.95;
+  filter: drop-shadow(0 0 6px rgba(247,201,72,.2));
+}
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>5 Star Tola </title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="arcadeFrame">
+  <div class="screen">
+
+    <div class="selectWrap">
+      <div class="selectHeader">
+        <div class="selectTitle">Game Selection</div>
+      </div>
+
+      <div class="selectGrid">
+        <a class="selectCard" href="#">
+          <img src="/Users/ifespencer/Documents/GitHub/5startola/assets/tolympicslogo.png" alt="Tolympics">
+        </a>
+
+        <a class="selectCard" href="#">
+          <img src="assets/bblogo.png" alt="Brainiac Boost">
+          
+        </a>
+
+        <a class="selectCard" href="#">
+          <img src="assets/allstarhoopslogo.png" alt="All Star Hoops">
+        </a>
+      </div>
+
+      <div class="selectFooter">Press Esc to go back</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>

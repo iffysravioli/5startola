@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>5 Star Tola</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/x-icon" href="assets/pacboy.png">
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" type="image/x-icon" href="assets/pacboy.png" />
+
+<!-- Pixel font -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 </head>
 
 <body>
@@ -12,18 +17,29 @@
 <div class="arcadeFrame">
   <div class="screen">
     <div class="home">
-      <img src="assets/5starlogo.png" class="logo">
-      <p class="press">Press any key to start</p>
+      <img src="assets/5starlogo.png" class="logo" alt="5 Star Tola">
+
+      <!-- Pixel stars -->
+      <div class="starRow" aria-hidden="true">
+        <span class="pxStar"></span>
+        <span class="pxStar"></span>
+        <span class="pxStar"></span>
+        <span class="pxStar"></span>
+        <span class="pxStar"></span>
+      </div>
+
+      <button class="startBtn" onclick="startGame()">
+        START
+      </button>
     </div>
   </div>
 </div>
 
 <script>
-document.addEventListener("keydown", () => {
+function startGame() {
   window.location.href = "select.html";
-});
+}
 </script>
 
 </body>
 </html>
-

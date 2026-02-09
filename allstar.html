@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>5StarTola | All Star Hoops</title>
+  <link rel="stylesheet" href="allstar.css" />
+</head>
+<body>
+  <div class="arcadeFrame">
+    <div class="screen">
+      <div class="bbWrap2">
+
+        <div class="pmHud">
+          <div class="pmLeft">
+            <img class="pmLogo" src="assets/allstarhoopslogo.png" alt="5StarTola" />
+          </div>
+
+          <div class="pmCenter">
+            <div class="pmLabels">
+              <div id="pLabel">PURPLE</div>
+              <div id="wLabel">WHITE</div>
+            </div>
+            <div class="pmScores">
+              <div id="pScore">0</div>
+              <div id="wScore">0</div>
+            </div>
+          </div>
+
+          <div class="pmRight">
+            <button class="pmHomeBtn" id="homeBtn" title="Home">⌂</button>
+            <button class="pmHomeBtn" id="resetBtn" title="Reset">↻</button>
+          </div>
+        </div>
+
+        <div class="pmStage">
+          <canvas id="game" width="840" height="520" aria-label="All Star Hoops Connect 4"></canvas>
+
+          <div class="bbLivesBar">
+            <div id="livesTrack">
+              <div id="turnPill">TURN: PURPLE</div>
+              <div id="statusPill">FIRST TO CONNECT 4</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre game name popup -->
+  <div id="startModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modalCard">
+      <div class="modalTitle">ALL STAR HOOPS</div>
+      <div class="modalSub">Enter player names then press Start</div>
+
+      <div class="formRow">
+        <label class="nameLabel" for="startPurple">Purple player</label>
+        <input id="startPurple" class="nameInput" type="text" maxlength="12" placeholder="Purple" />
+      </div>
+
+      <div class="formRow">
+        <label class="nameLabel" for="startWhite">White player</label>
+        <input id="startWhite" class="nameInput" type="text" maxlength="12" placeholder="White" />
+      </div>
+
+      <button id="startBtn" class="modalBtn">Start game</button>
+    </div>
+  </div>
+
+  <!-- Win popup -->
+  <div id="winModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modalCard">
+      <div id="winTitle" class="modalTitle">PURPLE WINS</div>
+      <div id="winSub" class="modalSub">CONNECT 4</div>
+      <button id="playAgainBtn" class="modalBtn">Play again</button>
+    </div>
+  </div>
+
+  <script src="allstar.js"></script>
+</body>
+</html>

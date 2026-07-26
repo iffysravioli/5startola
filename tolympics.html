@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>5StarTola | Tolympics</title>
+
+  <!-- keep your arcade theme -->
+  <link rel="stylesheet" href="../style.css" />
+  <!-- game specific css -->
+  <link rel="stylesheet" href="tolympics.css" />
+
+  <link rel="icon" type="image/x-icon" href="../assets/pacboy.png">
+</head>
+
+<body>
+  <div class="arcadeFrame">
+    <div class="screen">
+
+      <!-- ================= Loading / splash screen ================= -->
+      <div id="loadingScreen" class="loadingScreen">
+        <img src="assets/tolympicslogo.png" class="loadingLogo" alt="Tolympics">
+        <div class="loadingBarTrack">
+          <div id="loadingBarFill" class="loadingBarFill"></div>
+        </div>
+        <div id="loadingText" class="loadingText">LOADING…</div>
+      </div>
+
+      <!-- ================= Main game ================= -->
+      <div class="gameWrap hidden" id="gameWrap">
+
+        <div class="canvasStage">
+          <canvas id="game" width="960" height="540"></canvas>
+
+          <!-- score is drawn directly on the canvas (top-left, plain, like a
+               classic arcade jumper) - this button is the only DOM overlay -->
+          <button class="cornerHomeBtn" id="homeBtn" title="Home">🏠</button>
+
+          <div id="bigMessage" class="bigMessage hidden"></div>
+
+          <div id="startPanel" class="overlayPanel">
+            <div class="overlayTitle">CLIMB THE PITS</div>
+            <div class="overlaySub">Steer with <span class="key">&larr;</span> <span class="key">&rarr;</span> to land on each sand pit &mdash; you bounce automatically</div>
+            <div class="overlaySub">Miss every pit below you and fall off the screen, and you're done</div>
+            <div class="overlaySub">Grab the Bible for free flight, Gatorade for an extra save, the laptop for bonus points</div>
+            <button id="startBtn" class="pixelBtn">Start</button>
+          </div>
+
+          <div id="resultPanel" class="overlayPanel hidden">
+            <div class="overlayTitle" id="resultTitle">GAME OVER</div>
+            <div id="resultIcon" class="medalIcon">🎽</div>
+            <div class="medalBestLabel">SCORE</div>
+            <div id="resultScore" class="medalBestValue">0</div>
+            <div id="resultNote" class="medalNote"></div>
+            <button id="retryBtn" class="pixelBtn">Try Again</button>
+          </div>
+        </div>
+
+        <div class="gameFooter">
+          <div class="help">Controls: &larr; / &rarr; (or tap left/right side of the screen) to steer &nbsp;•&nbsp; land on the sand pits to keep bouncing higher</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="assets/tolympics/sprites/sprite_config.js"></script>
+  <script src="tolympics.js"></script>
+</body>
+</html>

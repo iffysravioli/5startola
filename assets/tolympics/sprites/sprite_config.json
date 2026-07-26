@@ -1,0 +1,64 @@
+{
+  "image": "player_spritesheet.png",
+  "frameWidth": 112,
+  "frameHeight": 100,
+  "groundLine": 94,
+  "animations": {
+    "idle": {
+      "row": 0,
+      "startFrame": 0,
+      "frameCount": 2,
+      "fps": 3,
+      "loop": true
+    },
+    "run": {
+      "row": 1,
+      "startFrame": 0,
+      "frameCount": 4,
+      "fps": 11,
+      "loop": true
+    },
+    "hop": {
+      "row": 2,
+      "startFrame": 0,
+      "frameCount": 3,
+      "fps": 9,
+      "loop": false
+    },
+    "step": {
+      "row": 3,
+      "startFrame": 0,
+      "frameCount": 3,
+      "fps": 9,
+      "loop": false
+    },
+    "finaljump": {
+      "row": 4,
+      "startFrame": 0,
+      "frameCount": 4,
+      "fps": 10,
+      "loop": false
+    },
+    "land": {
+      "row": 5,
+      "startFrame": 0,
+      "frameCount": 2,
+      "fps": 7,
+      "loop": false
+    },
+    "celebrate": {
+      "row": 6,
+      "startFrame": 0,
+      "frameCount": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "foul": {
+      "row": 7,
+      "startFrame": 0,
+      "frameCount": 4,
+      "fps": 7,
+      "loop": false
+    }
+  }
+}
